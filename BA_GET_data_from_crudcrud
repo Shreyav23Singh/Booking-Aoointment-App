@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book  an Appointment</title>
+    <style>
+        h1{
+            color : rgb(20, 3, 3);
+            text-align: center;
+            text-decoration:darkmagenta;
+            text-shadow: 10cm;
+        }
+        form{
+            text-align: center;
+            
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 25px;
+            text-emphasis-color: orange;
+            color: white;
+            background-color: rgb(223, 207, 222);
+        }
+        input{
+            color:black;
+            text-size-adjust: 10px;
+            text-size-adjust: 60%;
+        }
+        
+    </style>
+</head>
+<body >
+ 
+    <h1>Appointment Booking App</h1>
+    
+    <form onsubmit="saveToLocalStorage(event)">
+        <label for ="fname">First Name: <br></label>
+        <input type="text" id="fname" name="fname" required style="width: 40% " ><br><br>
+        <label for="lname">Last Name:<br></label>
+        <input type="text" id="lname" name="lname" required style="width: 40%;"> <br><br>
+        <label for="email">Email : <br></label>
+        <input type="text" id="email" name="email" required style="width: 40%;" ><br><br>
+        <label for="Phone">Phone:<br></label>
+        <input type="integer" id="phone" name="phone" required style="width: 40%;" ><br><br>
+        <label for="time">Time for call :<br></label>
+        <input type="time" id="time" name="time" required style="width: 20%;">
+        <input type="date" id="date" name="date" required style="width: 20%;"><br><br>
+        <label for="submit">Get a Call:<br></label>
+        <input type="submit" id="submit" name="submit" required style="width: 40%;">
+
+
+
+    </form>
+    
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+function saveToLocalStorage(event){
+    event.preventDefault();
+    //console.log("hi")
+    
+    const firstName =event.target.fname.value;
+    const lastName =event.target.lname.value;
+    const email =event.target.email.value;
+    const phoneNo =event.target.phone.value;
+    const Time =event.target.time.value;
+    const Date =event.target.date.value;
+    
+
+
+const obj ={
+    firstName,
+    lastName ,
+    email,
+    phoneNo,
+    Time,
+    Date
+}
+console.log(obj)
+
+
+localStorage.setItem(obj.email , JSON.stringify(obj))
+
+axios.post("https://crudcrud.com/api/18369d96034e4dfaa559786e119ffa46/AppointmentData" ,obj)
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err)
+})
+
+
+}
+ window.addEventListener("DOMContentLoaded" ,()=>{
+    //GET data from crudcrud 
+    axios.get("https://crudcrud.com/api/18369d96034e4dfaa559786e119ffa46/AppointmentData" )
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err)
+})
+
+    const LocalStorageObj =localStorage;
+    const localstoragekeys=Object.keys(LocalStorageObj)
+
+    for(let i=0 ; i<localstoragekeys.length ; i++){
+        const key=localstoragekeys[i];
+        const userDetailsString =LocalStorageObj[key];
+        const userDetailsObj = JSON.parse(userDetailsString);
+
+    }
+
+})
+    
+</body>
+
+    
+    
+</body>
+</html>
